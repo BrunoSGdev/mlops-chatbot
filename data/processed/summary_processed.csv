@@ -1,0 +1,11 @@
+Column,Type,Examples,Description (inferred)
+COUNTRY,string,"UY, PE, MX, BR","Two-letter country code for the row (e.g., AR, BR, CL, CO, CR, EC, MX, PE, UY)."
+CITY,string,"Montevideo, Lima, Cajamarca, Arequipa",City name.
+ZONE,string,"Malvin, Centro, Nuevocentro, Prado",Operational zone or neighborhood within the city.
+ZONE_TYPE,string,"Non Wealthy, Wealthy","Wealth segmentation label for the zone (e.g., “Wealthy”, “Non Wealthy”)."
+ZONE_PRIORITIZATION,string,"High Priority, Prioritized, Not Prioritized","Categorical reason for prioritization status (e.g., High Priority, Prioritized, Not Prioritized)."
+METRIC,string,"Gross Profit UE, % Order Loss, Perfect Order - Delay, Perfect Order - Defect","Metric being measured on this row (e.g., Perfect Order metrics, cancellations, adoption rates, etc.)."
+NW_AGO ,int,"0, 1, 2, 3, 4, 5, 6, 7, 8", Number of weeks passed since the metric value was capture
+MAVLUE ,float,"0.614042, 0.343601, 0.220589, 0.679834",Metric Value
+ORDERS ,float,"0.614042, 0.343601, 0.220589, 0.679834", Number of orders performed at the end of certain week
+
