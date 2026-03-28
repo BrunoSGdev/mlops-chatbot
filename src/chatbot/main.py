@@ -50,10 +50,13 @@ FORBIDDEN_PATTERNS = [
     "exec(",
     "eval(",
     "os.",
-    "sys."
+    "sys.",
+    "import" 
 ]
 
 def is_safe(code: str) -> bool:
+    if "import pandas as pd" in code:
+        code = code.replace("import pandas as pd", "")
     return not any(pattern in code for pattern in FORBIDDEN_PATTERNS)
 
 # =========================================================
