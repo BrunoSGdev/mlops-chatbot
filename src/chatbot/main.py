@@ -6,7 +6,7 @@ import time
 import re
 
 
-client = genai.Client(api_key='AIzaSyB4d2PYCZ1PSjLQErFAfiG8MYm_HWC2sLU')
+client = genai.Client(api_key='AIzaSyAe4RBGkQnr-fC1huHQ7KQNRow9Kgx6B4c')
 chat = client.chats.create(model="gemini-2.5-flash")
 
 # =========================================================

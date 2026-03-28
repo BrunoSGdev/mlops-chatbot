@@ -1,7 +1,18 @@
 from pathlib import Path
+import sys
 import pandas as pd
 import numpy as np
+from dotenv import load_dotenv
 import os
+
+from executive_report_gen import ExecutiveReportGenerator
+
+# =========================================================
+# API Config
+# =========================================================
+load_dotenv()  # loads variables from .env
+api_key = os.getenv("GEMINI_API_KEY")
+print(f"[INFO] Loaded GEMINI_API_KEY: {'Yes' if api_key else 'No'}")
 
 # =========================
 # CONFIG
@@ -150,7 +161,7 @@ class OpportunityDetector:
 # REPORT GENERATOR
 # =========================
 class ReportGenerator:
-    def generate(self, insights_dict: dict, filename: str = None, directory: str = None):
+    def generate(self, insights_dict: dict):
         report = []
 
         for category, insights in insights_dict.items():
@@ -160,21 +171,7 @@ class ReportGenerator:
             else:
                 report.append("No insights found")
 
-        report_text = "\n".join(report)
-
-        # Save to file if filename is provided
-        if filename:
-            # If directory is provided, join it with filename
-            if directory:
-                os.makedirs(directory, exist_ok=True)  # create folder if it doesn't exist
-                filepath = os.path.join(directory, filename)
-            else:
-                filepath = filename
-
-            with open(filepath, "w", encoding="utf-8") as file:
-                file.write(report_text)
-
-        return report_text
+        return "\n".join(report)
 
 
 # =========================
@@ -200,16 +197,31 @@ class InsightPipeline:
 
         insights = {}
 
-        for name, detector in detectors.items():
-            insights[name] = detector.detect(df_input)
+        MAX_INSIGHTS = 5
 
-        report = ReportGenerator().generate(
-            insights_dict=insights,
-            filename="report.txt",
-            directory="reports/output"
-)
+        for name, detector in detectors.items():
+            detected = detector.detect(df_input)
+
+            # Basic relevance heuristic (by magnitude if present)
+            def score(insight):
+                import re
+                numbers = re.findall(r"[-+]?\d*\.\d+|\d+", insight)
+                return max([float(n) for n in numbers], default=0)
+
+            detected_sorted = sorted(detected, key=score, reverse=True)
+
+            insights[name] = detected_sorted[:MAX_INSIGHTS]
+
+         # Generate base report (string)
+        report = ReportGenerator().generate(insights)
 
         print(report)
+        #Generate executive PDF directly from variable
+        exec_generator = ExecutiveReportGenerator(api_key=api_key)
+        exec_generator.run_from_text(
+            raw_report=report,
+            output_pdf_path="reports/output/executive_report.pdf"
+        )
 
 
 if __name__ == "__main__":
