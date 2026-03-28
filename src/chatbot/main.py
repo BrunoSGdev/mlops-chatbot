@@ -1,12 +1,20 @@
 from google import genai
 from pathlib import Path
 import pandas as pd
+from dotenv import load_dotenv
 import os
 import time
 import re
 
+# =========================================================
+# API Config
+# =========================================================
+load_dotenv()  # loads variables from .env
+api_key = os.getenv("GEMINI_API_KEY")
+print(f"[INFO] Loaded GEMINI_API_KEY: {'Yes' if api_key else 'No'}")
 
-client = genai.Client(api_key='AIzaSyAe4RBGkQnr-fC1huHQ7KQNRow9Kgx6B4c')
+
+client = genai.Client(api_key=api_key)
 chat = client.chats.create(model="gemini-2.5-flash")
 
 # =========================================================
