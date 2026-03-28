@@ -9,7 +9,7 @@ source venv/bin/activate  (Linux/Mac)
 venv\Scripts\activate   (Windows)
 
 Install dependencies:
-pip install pandas numpy python-dotenv
+pip install pandas numpy google-genai python-dotenv reportlab
 
 Create .env file:
 GEMINI_API_KEY=your_api_key_here

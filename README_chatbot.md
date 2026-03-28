@@ -9,7 +9,7 @@ source venv/bin/activate  (Linux/Mac)
 venv\Scripts\activate   (Windows)
 
 Install dependencies:
-pip install pandas google-generativeai python-dotenv
+pip install pandas google-genai python-dotenv
 
 Create .env file:
 GEMINI_API_KEY=your_api_key_here
